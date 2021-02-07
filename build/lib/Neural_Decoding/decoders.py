@@ -45,7 +45,6 @@ except ImportError:
 #Note that Keras has many more built-in functions that I have not imported because I have not used them
 #But if you want to modify the decoders with other functions (e.g. regularization), import them here
 try:
-    import tensorflow as tf
     import keras
     keras_v1=int(keras.__version__[0])<=1
     from keras.models import Sequential
@@ -633,11 +632,11 @@ class LSTMRegression(object):
         y_train: numpy 2d array of shape [n_samples, n_outputs]
             This is the outputs that are being predicted
         """
-        model = tf.keras.Sequential()
-        #model=Sequential() #Declare model
+
+        model=Sequential() #Declare model
         #Add recurrent layer
         if keras_v1:
-           model.add(LSTM(self.units,input_shape=(X_train.shape[1],X_train.shape[2]),dropout_W=self.dropout,dropout_U=self.dropout)) #Within recurrent layer, include dropout
+            model.add(LSTM(self.units,input_shape=(X_train.shape[1],X_train.shape[2]),dropout_W=self.dropout,dropout_U=self.dropout)) #Within recurrent layer, include dropout
         else:
             model.add(LSTM(self.units,input_shape=(X_train.shape[1],X_train.shape[2]),dropout=self.dropout,recurrent_dropout=self.dropout)) #Within recurrent layer, include dropout
         if self.dropout!=0: model.add(Dropout(self.dropout)) #Dropout some units (recurrent layer output units)
